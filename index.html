@@ -1,507 +1,193 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0a0908">
-<meta name="description" content="Farid & Vaheda — Wedding Album · 17 November 2025">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080706">
 <title>Farid & Vaheda — Wedding Album</title>
-
-<!-- PDF.js: the album reads the supplied wedding PDF and turns each page into a photo page. -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.min.mjs" type="module"></script>
-
 <style>
-:root{
-  --bg:#080706;
-  --paper:#f4f0e8;
-  --ink:#171310;
-  --gold:#c9a86a;
-  --gold2:#ead7a5;
-  --muted:#aaa39a;
-  --line:rgba(201,168,106,.34);
-  --shadow:0 30px 90px rgba(0,0,0,.62);
-}
-*{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;background:var(--bg);color:#fff;overflow:hidden}
-body{
-  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:
-    radial-gradient(circle at 50% 18%,rgba(201,168,106,.09),transparent 34%),
-    radial-gradient(circle at 15% 85%,rgba(201,168,106,.045),transparent 28%),
-    #080706;
-}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden}
+body{background:#080706;color:#eee;font-family:Arial,Helvetica,sans-serif}
 button{font:inherit}
-.hidden{display:none!important}
-
-/* ---------- INTRO ---------- */
-#intro{
-  position:fixed;inset:0;z-index:1000;display:grid;place-items:center;
-  background:
-    linear-gradient(180deg,rgba(0,0,0,.12),rgba(0,0,0,.72)),
-    radial-gradient(circle at 50% 35%,rgba(201,168,106,.15),transparent 42%),
-    #090807;
-  transition:opacity .9s ease,visibility .9s ease;
-}
-#intro.out{opacity:0;visibility:hidden;pointer-events:none}
-.intro-card{text-align:center;padding:30px;max-width:720px}
-.monogram{
-  width:92px;height:92px;border:1px solid var(--gold);border-radius:50%;
-  margin:0 auto 34px;display:grid;place-items:center;color:var(--gold2);
-  letter-spacing:.18em;font-family:Georgia,serif;font-size:22px;
-  box-shadow:0 0 55px rgba(201,168,106,.12),inset 0 0 25px rgba(201,168,106,.05)
-}
-.kicker{font-size:10px;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
-h1{
-  font-family:Georgia,"Times New Roman",serif;font-weight:400;
-  font-size:clamp(42px,8vw,86px);line-height:.95;margin:0;
-  letter-spacing:-.035em
-}
-.date{margin:25px 0 34px;color:#c9c2b8;letter-spacing:.3em;font-size:11px}
-.enter{
-  border:1px solid var(--gold);background:transparent;color:#f3e7c8;
-  padding:15px 28px;letter-spacing:.25em;text-transform:uppercase;font-size:10px;
-  cursor:pointer;transition:.3s;min-width:190px
-}
-.enter:hover{background:var(--gold);color:#090807;box-shadow:0 12px 35px rgba(201,168,106,.18)}
-.note{font-size:10px;color:#77716b;margin-top:18px;letter-spacing:.08em}
-
-/* ---------- APP ---------- */
-#app{position:fixed;inset:0;display:flex;flex-direction:column;opacity:0;transition:opacity .8s ease}
-#app.ready{opacity:1}
-.topbar{
-  height:66px;flex:0 0 66px;display:flex;align-items:center;justify-content:space-between;
-  padding:0 24px;border-bottom:1px solid rgba(255,255,255,.06);
-  background:rgba(8,7,6,.72);backdrop-filter:blur(18px);z-index:20
-}
-.brand{display:flex;align-items:center;gap:12px}
-.brand-mark{font-family:Georgia,serif;color:var(--gold);font-size:19px}
-.brand-copy{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#c8c0b5}
-.actions{display:flex;gap:7px}
-.icon-btn{
-  width:38px;height:38px;border:1px solid rgba(201,168,106,.28);background:rgba(255,255,255,.02);
-  color:#e9dfca;border-radius:50%;cursor:pointer;display:grid;place-items:center;font-size:14px
-}
-.icon-btn:hover{border-color:var(--gold);color:var(--gold2)}
-
-.stage{
-  position:relative;flex:1;min-height:0;display:grid;place-items:center;
-  perspective:1800px;overflow:hidden;padding:18px 22px 76px
-}
-.stage::before{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:
-    linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px),
-    linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px);
-  background-size:56px 56px;mask-image:radial-gradient(circle,black,transparent 74%);
-}
-.book{
-  position:relative;width:min(1180px,92vw);height:min(78vh,760px);
-  transform-style:preserve-3d;display:flex;align-items:stretch;justify-content:center;
-  filter:drop-shadow(0 35px 65px rgba(0,0,0,.55))
-}
-.spread{
-  position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;
-  transform-style:preserve-3d;pointer-events:none
-}
-.page{
-  position:relative;background:var(--paper);overflow:hidden;
-  box-shadow:inset 0 0 55px rgba(72,49,24,.12);
-  backface-visibility:hidden;
-}
-.page.left{border-radius:7px 0 0 7px;border-right:1px solid #c8bda8}
-.page.right{border-radius:0 7px 7px 0;border-left:1px solid #d1c7b4}
-.page canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
-.page .page-num{
-  position:absolute;bottom:15px;left:50%;transform:translateX(-50%);
-  color:#887c6c;font:10px Georgia,serif;letter-spacing:.15em
-}
-.gutter{
-  position:absolute;z-index:8;left:50%;top:0;bottom:0;width:3px;transform:translateX(-50%);
-  background:linear-gradient(90deg,rgba(0,0,0,.16),rgba(255,255,255,.6),rgba(0,0,0,.18));
-  opacity:.7;pointer-events:none
-}
-.sheet{
-  position:absolute;inset:0;transform-origin:left center;transform-style:preserve-3d;
-  transition:transform 1.05s cubic-bezier(.2,.72,.15,1);z-index:10
-}
-.sheet.flipped{transform:rotateY(-180deg)}
-.sheet .front,.sheet .back{
-  position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;
-  backface-visibility:hidden;transform-style:preserve-3d
-}
-.sheet .back{transform:rotateY(180deg)}
-.page-shell{position:relative;min-width:0;min-height:0}
-.page-shell::after{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  box-shadow:inset 0 0 70px rgba(0,0,0,.06)
-}
-
-/* Cover / chapter pages */
-.cover{
-  position:absolute;inset:0;z-index:50;display:grid;place-items:center;
-  overflow:hidden;border-radius:8px;
-  background:
-    radial-gradient(circle at 50% 40%,rgba(201,168,106,.15),transparent 34%),
-    linear-gradient(135deg,#17120e,#080706 62%,#15100d);
-  border:1px solid rgba(201,168,106,.42);
-  box-shadow:var(--shadow);
-  transition:opacity .7s ease,transform .9s cubic-bezier(.2,.8,.2,1)
-}
-.cover.hide{opacity:0;transform:scale(.98);pointer-events:none}
-.cover::before{
-  content:"";position:absolute;inset:18px;border:1px solid rgba(201,168,106,.25);pointer-events:none
-}
-.cover-content{text-align:center;position:relative;z-index:2;padding:30px}
-.cover .monogram{margin-bottom:26px}
-.cover h2{font:400 clamp(38px,6vw,72px)/.95 Georgia,serif;margin:0;letter-spacing:-.03em}
-.cover .amp{color:var(--gold);font-style:italic}
-.cover .sub{margin:22px 0 0;color:#bcb3a7;font-size:10px;letter-spacing:.34em;text-transform:uppercase}
-.cover::after{
-  content:"";position:absolute;width:520px;height:520px;border-radius:50%;
-  border:1px solid rgba(201,168,106,.09);transform:rotate(45deg)
-}
-
-/* Controls */
-.controls{
-  position:absolute;bottom:12px;left:50%;transform:translateX(-50%);z-index:30;
-  display:flex;align-items:center;gap:12px;padding:8px 11px;border:1px solid rgba(255,255,255,.08);
-  border-radius:999px;background:rgba(10,9,8,.7);backdrop-filter:blur(15px)
-}
-.nav{
-  width:40px;height:40px;border-radius:50%;border:1px solid rgba(201,168,106,.3);
-  background:transparent;color:#e6dbc6;cursor:pointer
-}
-.nav:hover{border-color:var(--gold);color:var(--gold2)}
-.counter{font:11px ui-monospace,SFMono-Regular,Menlo,monospace;color:#bcb4aa;min-width:92px;text-align:center}
-.progress{
-  position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(255,255,255,.06);z-index:40
-}
-.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s ease}
-
-/* Loading */
-#loading{
-  position:absolute;z-index:60;inset:0;display:grid;place-items:center;background:rgba(8,7,6,.72);
-  backdrop-filter:blur(8px);transition:.4s
-}
-.loader{text-align:center}
-.spinner{width:38px;height:38px;border:1px solid rgba(201,168,106,.25);border-top-color:var(--gold);border-radius:50%;animation:spin .9s linear infinite;margin:0 auto 14px}
-@keyframes spin{to{transform:rotate(360deg)}}
-.loader p{font-size:10px;letter-spacing:.2em;color:#b6aea4;text-transform:uppercase}
-
-/* Mobile */
-@media(max-width:760px){
-  .topbar{height:58px;flex-basis:58px;padding:0 14px}
-  .brand-copy{font-size:9px;letter-spacing:.14em}
-  .stage{padding:12px 12px 68px}
-  .book{width:94vw;height:min(76vh,720px)}
-  .spread,.sheet .front,.sheet .back{grid-template-columns:1fr}
-  .page.left{display:none}
-  .page.right{border-radius:7px;border-left:0}
-  .gutter{display:none}
-  .cover{border-radius:7px}
-  .cover::before{inset:11px}
-  .controls{bottom:8px}
-  .counter{min-width:76px}
-  .note{max-width:260px;margin-left:auto;margin-right:auto;line-height:1.5}
-}
-@media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+#intro{position:fixed;inset:0;z-index:99;display:grid;place-items:center;text-align:center;
+background:radial-gradient(circle at 50% 35%,#302516 0,#100d0a 38%,#050504 100%);
+transition:.8s}
+#intro.hide{opacity:0;visibility:hidden;pointer-events:none}
+.introbox{padding:28px}
+.mark{width:92px;height:92px;border:1px solid #caa86b;border-radius:50%;display:grid;place-items:center;
+margin:0 auto 25px;color:#ead8ae;font:22px Georgia,serif}
+.kicker{color:#caa86b;font-size:10px;letter-spacing:5px;text-transform:uppercase;margin-bottom:18px}
+h1{font:400 clamp(44px,8vw,82px)/.95 Georgia,serif;margin:0}
+.date{color:#aaa097;letter-spacing:5px;font-size:11px;margin:24px 0 32px}
+.enter{background:transparent;color:#ead8ae;border:1px solid #caa86b;padding:14px 25px;
+letter-spacing:3px;text-transform:uppercase;font-size:10px;cursor:pointer}
+.enter:hover{background:#caa86b;color:#080706}
+#app{position:fixed;inset:0;display:flex;flex-direction:column;opacity:0;transition:.7s}
+#app.show{opacity:1}
+header{height:62px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 20px;
+background:rgba(8,7,6,.8);backdrop-filter:blur(15px);border-bottom:1px solid #29231c;z-index:20}
+.brand{font:11px Georgia,serif;letter-spacing:2px;color:#e7d7b7}
+.tools{display:flex;gap:8px}.tool{width:38px;height:38px;border-radius:50%;border:1px solid #59472e;
+background:#100e0b;color:#e8d6b0;cursor:pointer}
+.stage{position:relative;flex:1;display:grid;place-items:center;padding:16px 16px 70px;
+perspective:1800px;background:radial-gradient(circle at 50% 45%,#1b1610 0,#080706 58%)}
+.book{position:relative;width:min(1160px,94vw);height:min(78vh,760px);transform-style:preserve-3d;
+filter:drop-shadow(0 35px 50px rgba(0,0,0,.65))}
+.page{position:absolute;inset:0;background:#f2eee5;border:1px solid #bba984;border-radius:7px;
+overflow:hidden;transform-style:preserve-3d}
+.photo{width:100%;height:100%;display:block;object-fit:contain;background:#eee9df}
+.sheet{position:absolute;inset:0;transform-origin:left center;transform-style:preserve-3d;
+transition:transform 1s cubic-bezier(.2,.75,.15,1);z-index:10}
+.sheet.flip{transform:rotateY(-180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;transform-style:preserve-3d}
+.back{transform:rotateY(180deg)}
+.desktopFace{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.desktopFace .page:first-child{border-radius:7px 0 0 7px;border-right:1px solid #aaa08d}
+.desktopFace .page:last-child{border-radius:0 7px 7px 0;border-left:1px solid #aaa08d}
+.mobileFace{display:none}
+.num{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);color:#746b5d;
+font:10px Georgia,serif;letter-spacing:2px;background:rgba(242,238,229,.72);padding:3px 8px}
+.cover{position:absolute;inset:0;z-index:50;border:1px solid #caa86b;border-radius:7px;
+background:radial-gradient(circle at 50% 40%,#332719,#0d0b09 55%,#050504);
+display:grid;place-items:center;text-align:center;transition:.8s}
+.cover.hide{opacity:0;transform:scale(.985);pointer-events:none}
+.cover:before{content:"";position:absolute;inset:17px;border:1px solid #725b38}
+.cover h2{font:400 clamp(38px,6vw,72px)/.95 Georgia,serif;margin:0}
+.gold{color:#caa86b}.sub{margin-top:20px;color:#aaa097;letter-spacing:4px;font-size:10px}
+.controls{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);z-index:30;
+display:flex;align-items:center;gap:12px;padding:7px 10px;border:1px solid #33291d;
+background:rgba(10,9,8,.82);border-radius:999px;backdrop-filter:blur(14px)}
+.nav{width:39px;height:39px;border-radius:50%;border:1px solid #665238;background:transparent;
+color:#ead8ae;font-size:23px;cursor:pointer}
+.count{min-width:82px;text-align:center;color:#aaa097;font:11px monospace}
+.progress{position:absolute;bottom:0;left:0;right:0;height:2px;background:#211b14;z-index:40}
+.progress i{display:block;height:100%;width:0;background:#caa86b;transition:.4s}
+@media(max-width:700px){
+header{height:56px;padding:0 12px}.brand{font-size:9px;letter-spacing:1.2px}
+.stage{padding:10px 10px 66px}.book{width:94vw;height:78vh}
+.desktopFace{display:none}.mobileFace{display:block}
+.cover:before{inset:10px}.controls{bottom:8px}
 }
 </style>
 </head>
-
 <body>
+
 <section id="intro">
-  <div class="intro-card">
-    <div class="monogram">F · V</div>
-    <div class="kicker">The Wedding Album</div>
-    <h1>Farid <span style="color:#c9a86a">&amp;</span> Vaheda</h1>
+  <div class="introbox">
+    <div class="mark">F · V</div>
+    <div class="kicker">Wedding Album · Farid's Side</div>
+    <h1>Farid <span class="gold">&amp;</span> Vaheda</h1>
     <div class="date">17 · 11 · 2025</div>
-    <button class="enter" id="enterBtn">Enter Our Story</button>
-    <div class="note">Best viewed in fullscreen · Tap once to begin the music</div>
+    <button class="enter" id="enter">Enter Our Story</button>
   </div>
 </section>
 
 <main id="app">
-  <header class="topbar">
-    <div class="brand">
-      <div class="brand-mark">F · V</div>
-      <div class="brand-copy">Farid &amp; Vaheda · 17.11.2025</div>
-    </div>
-    <div class="actions">
-      <button class="icon-btn" id="musicBtn" aria-label="Music">♫</button>
-      <button class="icon-btn" id="fullBtn" aria-label="Fullscreen">⛶</button>
-    </div>
-  </header>
+<header>
+  <div class="brand">F · V &nbsp; | &nbsp; FARID &amp; VAHEDA · 17.11.2025</div>
+  <div class="tools">
+    <button class="tool" id="music" title="Music">♫</button>
+    <button class="tool" id="full" title="Fullscreen">⛶</button>
+  </div>
+</header>
 
-  <section class="stage" id="stage">
-    <div id="loading"><div class="loader"><div class="spinner"></div><p id="loadText">Opening your album…</p></div></div>
-
-    <div class="book" id="book">
-      <div class="cover" id="cover">
-        <div class="cover-content">
-          <div class="monogram">F · V</div>
-          <div class="kicker">Wedding Album · Farid's Side</div>
-          <h2>Farid <span class="amp">&amp;</span> Vaheda</h2>
-          <div class="sub">17 · 11 · 2025</div>
-        </div>
+<section class="stage" id="stage">
+  <div class="book" id="book">
+    <div class="cover" id="cover">
+      <div>
+        <div class="mark">F · V</div>
+        <div class="kicker">The Wedding Album</div>
+        <h2>Farid <span class="gold">&amp;</span> Vaheda</h2>
+        <div class="sub">17 · 11 · 2025</div>
       </div>
-
-      <div class="spread" id="baseSpread">
-        <div class="page left" id="baseLeft"></div>
-        <div class="page right" id="baseRight"></div>
-        <div class="gutter"></div>
-      </div>
-
-      <div id="sheets"></div>
     </div>
-
-    <div class="controls">
-      <button class="nav" id="prev" aria-label="Previous page">‹</button>
-      <div class="counter" id="counter">01 / 01</div>
-      <button class="nav" id="next" aria-label="Next page">›</button>
-    </div>
-    <div class="progress"><i id="progressBar"></i></div>
-  </section>
+    <div id="sheets"></div>
+  </div>
+  <div class="controls">
+    <button class="nav" id="prev">‹</button>
+    <div class="count" id="count">01 / 36</div>
+    <button class="nav" id="next">›</button>
+  </div>
+  <div class="progress"><i id="bar"></i></div>
+</section>
 </main>
 
-<audio id="music" preload="auto" loop>
-  <!-- Put your song in the GitHub repository at: music/tenu_leke.mp3 -->
-  <source src="music/tenu_leke.mp3" type="audio/mpeg">
-</audio>
+<!-- Your GitHub screenshot shows the song is named song.mp3, so this path is intentional. -->
+<audio id="audio" src="song.mp3" preload="auto" loop></audio>
 
-<script type="module">
-import * as pdfjsLib from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.min.mjs";
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.worker.min.mjs";
+<script>
+const TOTAL=36;
+const sheets=document.getElementById('sheets');
+const count=document.getElementById('count');
+const bar=document.getElementById('bar');
+const audio=document.getElementById('audio');
+const musicBtn=document.getElementById('music');
+let current=0;
 
-const PDF_FILE = "Photos_261006_225845.pdf";
-const intro = document.getElementById("intro");
-const app = document.getElementById("app");
-const enterBtn = document.getElementById("enterBtn");
-const cover = document.getElementById("cover");
-const sheetsEl = document.getElementById("sheets");
-const baseLeft = document.getElementById("baseLeft");
-const baseRight = document.getElementById("baseRight");
-const loading = document.getElementById("loading");
-const loadText = document.getElementById("loadText");
-const counter = document.getElementById("counter");
-const progressBar = document.getElementById("progressBar");
-const music = document.getElementById("music");
-
-let pdf = null;
-let pages = [];
-let current = 0;
-let busy = false;
-let musicOn = false;
-
-/* We use 2-page sheets on desktop and a single visible page on mobile. */
-const isMobile = () => matchMedia("(max-width:760px)").matches;
-
-async function renderPDFPage(pdfPage, canvas, targetW, targetH){
-  const viewport0 = pdfPage.getViewport({scale:1});
-  const scale = Math.min(targetW / viewport0.width, targetH / viewport0.height) * 1.12;
-  const viewport = pdfPage.getViewport({scale});
-  const dpr = Math.min(devicePixelRatio || 1, 2);
-  canvas.width = Math.floor(viewport.width*dpr);
-  canvas.height = Math.floor(viewport.height*dpr);
-  canvas.style.width = viewport.width + "px";
-  canvas.style.height = viewport.height + "px";
-  const ctx = canvas.getContext("2d", {alpha:false});
-  await pdfPage.render({
-    canvasContext:ctx,
-    viewport,
-    transform:[dpr,0,0,dpr,0,0]
-  }).promise;
+function img(n){
+  const p=String(n).padStart(2,'0');
+  return 'page-'+p+'.jpg';
 }
-
-function makePage(n, cls="page right"){
-  const el = document.createElement("div");
-  el.className = cls;
-  const canvas = document.createElement("canvas");
-  el.appendChild(canvas);
-  const num = document.createElement("div");
-  num.className = "page-num";
-  num.textContent = String(n+1).padStart(2,"0");
-  el.appendChild(num);
-  el.dataset.page = n;
-  return {el,canvas};
+function page(n){
+  if(n>=TOTAL) return '<div class="page"></div>';
+  return '<div class="page"><img class="photo" src="'+img(n+1)+'" alt="Wedding photo '+(n+1)+'" loading="lazy"><div class="num">'+String(n+1).padStart(2,'0')+'</div></div>';
 }
-
-async function fillPage(holder, n){
-  holder.innerHTML = "";
-  if(n < 0 || n >= pages.length) return;
-  const p = makePage(n, holder.className || "page right");
-  holder.appendChild(p.el);
-  await renderPDFPage(pages[n], p.canvas, holder.clientWidth || 500, holder.clientHeight || 700);
-}
-
-function sheetMarkup(a,b,c,d){
-  const sheet = document.createElement("div");
-  sheet.className = "sheet";
-  sheet.dataset.index = a;
-  const front = document.createElement("div");
-  front.className = "front";
-  const back = document.createElement("div");
-  back.className = "back";
-
-  const fL = document.createElement("div"); fL.className="page-shell";
-  const fR = document.createElement("div"); fR.className="page-shell";
-  const bL = document.createElement("div"); bL.className="page-shell";
-  const bR = document.createElement("div"); bR.className="page-shell";
-  front.append(fL,fR); back.append(bL,bR); sheet.append(front,back);
-  return {sheet,fL,fR,bL,bR,nums:[a,b,c,d]};
-}
-
-async function buildAlbum(){
-  loadText.textContent = "Loading your wedding photos…";
-  try{
-    const task = pdfjsLib.getDocument(PDF_FILE);
-    pdf = await task.promise;
-    pages = [];
-    for(let i=1;i<=pdf.numPages;i++){
-      loadText.textContent = `Preparing photo ${i} of ${pdf.numPages}…`;
-      pages.push(await pdf.getPage(i));
-    }
-
-    /* The PDF itself is the source of truth for the photos. */
-    await rebuildSheets();
-    updateUI();
-    loading.classList.add("hidden");
-  }catch(err){
-    console.error(err);
-    loadText.textContent =
-      "Could not open Photos_261006_225845.pdf — upload that PDF beside this HTML file.";
-  }
-}
-
-async function rebuildSheets(){
-  sheetsEl.innerHTML="";
-  const mobile = isMobile();
-
+function build(){
+  sheets.innerHTML='';
+  const mobile=matchMedia('(max-width:700px)').matches;
   if(mobile){
-    /* On phones, one page per sheet gives a clean single-photo reading experience. */
-    for(let i=0;i<pages.length;i++){
-      const s = document.createElement("div");
-      s.className="sheet";
-      s.dataset.page=i;
-      const front=document.createElement("div"); front.className="front";
-      const shell=document.createElement("div"); shell.className="page-shell";
-      const holder=document.createElement("div"); holder.className="page right";
-      shell.appendChild(holder); front.appendChild(shell);
-      const back=document.createElement("div"); back.className="back";
-      const shell2=document.createElement("div"); shell2.className="page-shell";
-      const holder2=document.createElement("div"); holder2.className="page right";
-      shell2.appendChild(holder2); back.appendChild(shell2);
-      s.append(front,back); sheetsEl.appendChild(s);
-      const p=makePage(i,"page right");
-      holder.replaceWith(p.el);
-      await renderPDFPage(pages[i],p.canvas,700,1000);
-      const next=(i+1<pages.length)?makePage(i+1,"page right"):null;
-      if(next){holder2.replaceWith(next.el);await renderPDFPage(pages[i+1],next.canvas,700,1000)}
+    for(let i=0;i<TOTAL;i++){
+      sheets.insertAdjacentHTML('beforeend',
+        '<div class="sheet"><div class="face mobileFace">'+page(i)+'</div>'+
+        '<div class="face back mobileFace">'+page(i+1)+'</div></div>');
     }
   }else{
-    /* Desktop: true two-page spreads. */
-    for(let i=0;i<pages.length;i+=2){
-      const s=document.createElement("div");
-      s.className="sheet"; s.dataset.page=i;
-      const front=document.createElement("div");front.className="front";
-      const back=document.createElement("div");back.className="back";
-      const fL=document.createElement("div");fL.className="page-shell";
-      const fR=document.createElement("div");fR.className="page-shell";
-      const bL=document.createElement("div");bL.className="page-shell";
-      const bR=document.createElement("div");bR.className="page-shell";
-      front.append(fL,fR);back.append(bL,bR);s.append(front,back);sheetsEl.appendChild(s);
-
-      const left=makePage(i,"page left"); fL.appendChild(left.el);
-      await renderPDFPage(pages[i],left.canvas,560,760);
-      if(i+1<pages.length){
-        const right=makePage(i+1,"page right");fR.appendChild(right.el);
-        await renderPDFPage(pages[i+1],right.canvas,560,760);
-      }
-      if(i+2<pages.length){
-        const bl=makePage(i+2,"page left");bL.appendChild(bl.el);
-        await renderPDFPage(pages[i+2],bl.canvas,560,760);
-      }
-      if(i+3<pages.length){
-        const br=makePage(i+3,"page right");bR.appendChild(br.el);
-        await renderPDFPage(pages[i+3],br.canvas,560,760);
-      }
+    for(let i=0;i<TOTAL;i+=2){
+      sheets.insertAdjacentHTML('beforeend',
+        '<div class="sheet"><div class="face desktopFace">'+page(i)+page(i+1)+'</div>'+
+        '<div class="face back desktopFace">'+page(i+2)+page(i+3)+'</div></div>');
     }
   }
 }
-
-function openAlbum(){
-  intro.classList.add("out");
-  app.classList.add("ready");
-  cover.classList.add("hide");
-  /* Browsers allow audio after the user taps this button. */
-  music.play().then(()=>{musicOn=true;musicBtn.textContent="Ⅱ"}).catch(()=>{});
+function go(n){
+  current=Math.max(0,Math.min(TOTAL-1,n));
+  const mobile=matchMedia('(max-width:700px)').matches;
+  [...document.querySelectorAll('.sheet')].forEach((s,i)=>{
+    const flip=mobile ? i<current : i<Math.floor(current/2);
+    s.classList.toggle('flip',flip);
+  });
+  count.textContent=String(current+1).padStart(2,'0')+' / '+TOTAL;
+  bar.style.width=((current+1)/TOTAL*100)+'%';
 }
-
-function maxIndex(){ return Math.max(0,pages.length-1); }
-
-function goTo(n){
-  if(!pages.length || busy) return;
-  n=Math.max(0,Math.min(maxIndex(),n));
-  if(n===current) return;
-  busy=true;
-
-  if(isMobile()){
-    const all=[...sheetsEl.querySelectorAll(".sheet")];
-    all.forEach((s,i)=>s.classList.toggle("flipped",i<n));
-  }else{
-    const sheets=[...sheetsEl.querySelectorAll(".sheet")];
-    const targetSheet=Math.floor(n/2);
-    sheets.forEach((s,i)=>s.classList.toggle("flipped",i<targetSheet));
-  }
-  current=n;
-  updateUI();
-  setTimeout(()=>busy=false,850);
-}
-
-function updateUI(){
-  const total=pages.length||1;
-  counter.textContent=String(current+1).padStart(2,"0")+" / "+String(total).padStart(2,"0");
-  progressBar.style.width=((current+1)/total*100)+"%";
-}
-
-enterBtn.addEventListener("click",openAlbum);
-document.getElementById("next").addEventListener("click",()=>goTo(current+(isMobile()?1:2)));
-document.getElementById("prev").addEventListener("click",()=>goTo(current-(isMobile()?1:2)));
-
-const musicBtn=document.getElementById("musicBtn");
-musicBtn.addEventListener("click",()=>{
-  if(music.paused){music.play().then(()=>{musicOn=true;musicBtn.textContent="Ⅱ"}).catch(()=>{})}
-  else{music.pause();musicOn=false;musicBtn.textContent="♫"}
-});
-
-document.getElementById("fullBtn").addEventListener("click",()=>{
+document.getElementById('enter').onclick=()=>{
+  document.getElementById('intro').classList.add('hide');
+  document.getElementById('app').classList.add('show');
+  document.getElementById('cover').classList.add('hide');
+  audio.play().then(()=>musicBtn.textContent='Ⅱ').catch(()=>{});
+};
+document.getElementById('next').onclick=()=>go(current+(matchMedia('(max-width:700px)').matches?1:2));
+document.getElementById('prev').onclick=()=>go(current-(matchMedia('(max-width:700px)').matches?1:2));
+musicBtn.onclick=()=>{
+  if(audio.paused){audio.play().then(()=>musicBtn.textContent='Ⅱ').catch(()=>{})}
+  else{audio.pause();musicBtn.textContent='♫'}
+};
+document.getElementById('full').onclick=()=>{
   if(!document.fullscreenElement) document.documentElement.requestFullscreen?.();
   else document.exitFullscreen?.();
-});
-
-document.addEventListener("keydown",(e)=>{
-  if(e.key==="ArrowRight"||e.key==="PageDown") goTo(current+(isMobile()?1:2));
-  if(e.key==="ArrowLeft"||e.key==="PageUp") goTo(current-(isMobile()?1:2));
-  if(e.key===" "){e.preventDefault();musicBtn.click()}
-  if(e.key==="f"||e.key==="F") document.getElementById("fullBtn").click();
-});
-
-let touchX=0;
-stage.addEventListener("touchstart",e=>{touchX=e.changedTouches[0].clientX},{passive:true});
-stage.addEventListener("touchend",e=>{
-  const dx=e.changedTouches[0].clientX-touchX;
-  if(Math.abs(dx)>45) dx<0?goTo(current+1):goTo(current-1);
-},{passive:true});
-
-window.addEventListener("resize",()=>{
-  /* Rebuilding on orientation/size changes keeps the page framing crisp. */
-  clearTimeout(window.__rt);
-  window.__rt=setTimeout(()=>pages.length&&rebuildSheets(),250);
-});
-
-buildAlbum();
+};
+document.onkeydown=e=>{
+  if(e.key==='ArrowRight') document.getElementById('next').click();
+  if(e.key==='ArrowLeft') document.getElementById('prev').click();
+  if(e.key===' ') {e.preventDefault();musicBtn.click()}
+};
+let sx=0;
+document.getElementById('stage').ontouchstart=e=>sx=e.changedTouches[0].clientX;
+document.getElementById('stage').ontouchend=e=>{
+  const dx=e.changedTouches[0].clientX-sx;
+  if(Math.abs(dx)>45) dx<0?go(current+1):go(current-1);
+};
+window.addEventListener('resize',()=>{build();go(current)});
+build();go(0);
 </script>
 </body>
 </html>
