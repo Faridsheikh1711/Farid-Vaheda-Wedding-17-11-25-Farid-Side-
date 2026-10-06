@@ -20,7 +20,7 @@ button:hover{border-color:var(--gold);transform:translateY(-1px)}button.active{b
 .page{position:relative;background:var(--paper);overflow:hidden;box-shadow:0 0 0 1px #d0c2a866,inset 0 0 38px rgba(61,42,20,.1);transform-style:preserve-3d}
 .page img{display:block;width:100%;height:100%;object-fit:contain;background:#eee9df}
 .left{border-radius:4px 0 0 4px}.right{border-radius:0 4px 4px 0;border-left:1px solid rgba(70,50,25,.2)}
-.spread{width:100%;height:100%;display:flex;position:relative}
+.spread{width:100%;height:100%;display:flex;position:relative;overflow:hidden}
 .spread .page{width:50%;height:100%}
 .spread:after{content:"";position:absolute;left:50%;top:0;bottom:0;width:20px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,rgba(0,0,0,.25),rgba(255,255,255,.5),rgba(0,0,0,.22),transparent);pointer-events:none;z-index:5}
 .single{width:min(820px,92vw);height:100%;border-radius:4px;box-shadow:0 0 0 1px #d0c2a866,inset 0 0 48px rgba(61,42,20,.12)}
@@ -50,11 +50,14 @@ button:hover{border-color:var(--gold);transform:translateY(-1px)}button.active{b
 <audio id="song" preload="metadata" loop src="song.mp3"></audio>
 <script>
 const PAGES=Array.from({length:36},(_,i)=>`page-${String(i+1).padStart(2,'0')}.jpg`);
-// Requested layout: 01, 02 and 35 are single pages. 03–34 are two-page spreads; 36 is a final single page.
-const UNITS=[[1],[2],...Array.from({length:16},(_,i)=>[3+i*2,4+i*2]),[35],[36]];
+const VERSION='v3';
+// EXACT LAYOUT: only 01, 02 and 35 are standalone photo pages. Pages 03–34 are 16 two-page spreads. Page 36 is the final thank-you page.
+const UNITS=[[1],[2]];
+for(let n=3;n<=34;n+=2) UNITS.push([n,n+1]);
+UNITS.push([35],[36]);
 let idx=0,started=false,timer=null,sx=0;
 const book=document.getElementById('book'),welcome=document.getElementById('welcome'),counter=document.getElementById('counter'),progress=document.getElementById('progress'),song=document.getElementById('song'),music=document.getElementById('music');
-function makePage(n,side){const p=document.createElement('div');p.className='page '+side;const im=document.createElement('img');im.src=PAGES[n-1];im.alt=`Farid & Vaheda — page ${String(n).padStart(2,'0')}`;im.loading='eager';im.onerror=()=>{im.alt='Photo unavailable';};p.appendChild(im);const f=document.createElement('div');f.className='folio';f.textContent=String(n).padStart(2,'0');p.appendChild(f);return p;}
+function makePage(n,side){const p=document.createElement('div');p.className='page '+side;const im=document.createElement('img');im.src=PAGES[n-1]+'?'+VERSION;im.alt=`Farid & Vaheda — page ${String(n).padStart(2,'0')}`;im.loading='eager';im.onerror=()=>{im.alt='Photo unavailable';};p.appendChild(im);const f=document.createElement('div');f.className='folio';f.textContent=String(n).padStart(2,'0');p.appendChild(f);return p;}
 function render(dir=0){const u=UNITS[idx];book.innerHTML='';book.className='book '+(u.length===1?'single':'');if(u.length===1){if(u[0]===36){const p=document.createElement('div');p.className='page single final';p.innerHTML='<div class="finalInner"><div class="small">FARID & VAHEDA · 17 NOVEMBER 2025</div><h2>Thank You</h2><p>For being part of our beautiful journey<br>and for making our memories even more special.</p><div class="maker">Made by Farid Sheikh<br>Mob. +91 9723148848</div></div>';book.appendChild(p)}else book.appendChild(makePage(u[0],'single'));}
 else{const s=document.createElement('div');s.className='spread';s.appendChild(makePage(u[0],'left'));s.appendChild(makePage(u[1],'right'));book.appendChild(s)}
 counter.textContent=u.length===1?String(u[0]).padStart(2,'0')+' / 36':String(u[0]).padStart(2,'0')+'–'+String(u[1]).padStart(2,'0')+' / 36';progress.style.width=((idx+1)/UNITS.length*100)+'%';if(dir){book.classList.remove('turnNext','turnPrev');void book.offsetWidth;book.classList.add(dir>0?'turnNext':'turnPrev');}}
