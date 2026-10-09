@@ -27,13 +27,28 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;ba
 /* lightbox */
 #lightbox{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.96);place-items:center;padding:18px}.lb{max-width:96vw;max-height:92vh;object-fit:contain}.close{position:fixed;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:1px solid #444;background:#111;color:#fff;font-size:25px;cursor:pointer}.caption{position:fixed;bottom:15px;left:50%;transform:translateX(-50%);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:#aaa;white-space:nowrap}
 #rotateToast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);z-index:3000;opacity:0;pointer-events:none;padding:10px 15px;border:1px solid rgba(217,181,109,.45);border-radius:999px;background:rgba(8,7,5,.88);backdrop-filter:blur(12px);color:#e9dfd2;font-size:9px;letter-spacing:.14em;text-transform:uppercase;transition:.35s ease;white-space:nowrap}#rotateToast.show{opacity:1;transform:translate(-50%,0)}
+#rotateScreen{display:none;position:fixed;inset:0;z-index:5000;place-items:center;background:radial-gradient(circle at 50% 40%,rgba(217,181,109,.16),transparent 24%),linear-gradient(135deg,#020202,#161009 55%,#030303);text-align:center;padding:24px}
+.rotate-card{width:min(520px,92vw);padding:34px 24px 30px;border:1px solid rgba(217,181,109,.35);background:rgba(8,7,5,.72);box-shadow:0 30px 90px rgba(0,0,0,.65);backdrop-filter:blur(18px);border-radius:22px}
+.rotate-icon{width:76px;height:76px;margin:0 auto 18px;border:1px solid rgba(217,181,109,.5);border-radius:50%;display:grid;place-items:center;color:var(--gold2);font-size:38px;animation:rotHint 1.8s ease-in-out infinite}
+.rotate-kicker{font-size:8px;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);margin-left:.42em}.rotate-title{font:400 clamp(34px,8vw,54px)/1 'Cormorant Garamond',serif;margin:13px 0 10px}.rotate-sub{font-size:10px;line-height:1.8;letter-spacing:.1em;text-transform:uppercase;color:#9d958b}.rotate-hint{display:inline-block;margin-top:22px;padding:8px 13px;border:1px solid rgba(217,181,109,.3);border-radius:999px;color:#d9cdbd;font-size:8px;letter-spacing:.2em;text-transform:uppercase}@keyframes rotHint{0%,100%{transform:rotate(0)}45%{transform:rotate(90deg)}65%{transform:rotate(90deg)} }
+@media(max-width:700px) and (orientation:portrait){body.album-open #rotateScreen{display:grid}body.album-open{overflow:hidden}body.album-open #cover{display:none}}
+@media(max-width:700px) and (orientation:landscape){#rotateScreen{display:none!important}}
 @media(max-width:700px){.top{height:56px}.brand{font-size:19px}.hero{padding:20px 10px 12px}.hero h1{font-size:40px}.album{width:100%}.book{width:100%;height:calc(100svh - 178px);min-height:430px;border-left:0;border-right:0}.badge{top:9px;left:9px}.credit{right:8px;bottom:8px}.hint{display:none}.info{padding:0 12px}.counter{font-size:20px}.track{width:42vw}.arrow{width:44px;height:44px}.tools{padding:0 10px}.tool{font-size:7px;padding:8px 10px}.thumbs{padding-left:10px;padding-right:10px}.thumb{flex-basis:64px;height:44px}}
 @media(max-width:700px) and (orientation:landscape){.top{height:48px}.hero{display:none}.book{height:calc(100svh - 72px);min-height:0}.info{margin-top:6px}.controls,.tools,.thumbs,.footer{display:none}.album{padding-bottom:0}.badge{font-size:7px}.credit{font-size:6px}.round{width:36px;height:36px}}
 @media(prefers-reduced-motion:reduce){.page.flipping{pointer-events:none;transition:none}}
 </style>
 </head>
 <body>
-<div id="rotateToast">Turn your phone sideways for the album</div><section id="cover"><div class="cover"><div class="monogram">F · V</div><div class="line"><i></i><b>♡</b><i></i></div><div class="eyebrow">The Wedding Album</div><div class="names">Farid <em>&amp;</em> Vaheda</div><div class="date">17 · 11 · 2025</div><div class="sub">Two hearts · One beautiful beginning</div><button class="open" id="open">Open Our Memories</button></div></section>
+<div id="rotateToast">Turn your phone sideways for the album</div>
+<div id="rotateScreen" aria-hidden="true">
+  <div class="rotate-card">
+    <div class="rotate-icon"><span>↻</span></div>
+    <div class="rotate-kicker">Wedding Album</div>
+    <div class="rotate-title">Please rotate your phone</div>
+    <div class="rotate-sub">Turn your phone sideways to open<br>Farid &amp; Vaheda's memories</div>
+    <div class="rotate-hint">Landscape mode</div>
+  </div>
+</div><section id="cover"><div class="cover"><div class="monogram">F · V</div><div class="line"><i></i><b>♡</b><i></i></div><div class="eyebrow">The Wedding Album</div><div class="names">Farid <em>&amp;</em> Vaheda</div><div class="date">17 · 11 · 2025</div><div class="sub">Two hearts · One beautiful beginning</div><button class="open" id="open">Open Our Memories</button></div></section>
 <header class="top"><div class="brand">FARID <b>&amp;</b> VAHEDA</div><div class="actions"><button class="round" id="music" aria-label="Music">♪</button><button class="round" id="full" aria-label="Fullscreen">⛶</button></div></header>
 <section class="hero"><small>A day to remember</small><h1>Our <span>Wedding</span> Story</h1><p>Farid &amp; Vaheda · 17 November 2025</p></section>
 <main class="album"><div class="book-stage"><div class="book" id="book"><div class="page" id="page"><div class="face front"><img class="blur" id="blurA"><img class="photo" id="imgA" alt="Wedding memory"></div><div class="face back"><img class="blur" id="blurB"><img class="photo" id="imgB" alt="Wedding memory"></div><div class="page-edge"></div></div><div class="badge" id="badge">Memory 01</div><div class="credit">A special memory of <b>Farid &amp; Vaheda</b><br>17 · 11 · 2025</div></div></div>
@@ -86,32 +101,61 @@ function flipSound(){
     o.connect(og).connect(audioCtx.destination); o.start(t+.07); o.stop(t+.32);
   }catch(e){}
 }
-async function go(dir){if(animating)return;const target=current+dir;if(target<1||target>FINAL)return;animating=true;await setImg(imgB,blurB,target);flipSound();page.classList.add('flipping');setTimeout(()=>{current=target;page.classList.remove('flipping');prepare(current);animating=false},1050)}
+async function go(dir){
+  if(animating)return;
+  const target=current+dir;
+  if(target<1||target>FINAL)return;
+  animating=true;
+  await setImg(imgB,blurB,target);
+  flipSound();
+  page.classList.add('flipping');
+  await new Promise(r=>setTimeout(r,1050));
+  current=target;
+  page.classList.remove('flipping');
+  await prepare(current);
+  animating=false;
+}
 
 function musicOn(){audio.play().then(()=>{music.textContent='❚❚';play.textContent='Pause Music'}).catch(()=>{})}function musicOff(){audio.pause();music.textContent='♪';play.textContent='Play Music'}
+function isMobile(){return window.matchMedia('(max-width:700px)').matches}
+function isLandscape(){return window.matchMedia('(orientation:landscape)').matches || window.innerWidth>window.innerHeight}
+async function enterFullscreen(){
+  try{
+    if(!document.fullscreenElement && document.documentElement.requestFullscreen){await document.documentElement.requestFullscreen()}
+  }catch(e){}
+}
+function syncOrientation(){
+  const mobile=isMobile();
+  if(!mobile){$('rotateScreen').style.display='none';return}
+  const landscape=isLandscape();
+  if(landscape){$('rotateScreen').style.display='none';if(document.body.classList.contains('album-open'))musicOn()}
+  else if(document.body.classList.contains('album-open')){$('rotateScreen').style.display='grid';musicOff()}
+}
 async function requestAlbumMode(){
-  try{ if(!document.fullscreenElement && document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen(); }catch(e){}
-  try{ if(screen.orientation && screen.orientation.lock) await screen.orientation.lock('landscape'); }catch(e){
-    if(window.matchMedia('(orientation:portrait)').matches){ const toast=$('rotateToast'); toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'),3200); }
-  }
+  await enterFullscreen();
+  syncOrientation();
 }
 async function openAlbum(){
+  document.body.classList.add('album-open');
   $('cover').classList.add('hide');
   await requestAlbumMode();
-  musicOn();
+  if(!isMobile() || isLandscape()) musicOn();
 }
 $('open').onclick=openAlbum;
-$('full').onclick=async()=>{ if(document.fullscreenElement){try{await document.exitFullscreen()}catch(e){}}else await requestAlbumMode(); };
-$('book').addEventListener('click',()=>{ if(window.innerWidth<=700) requestAlbumMode(); },{passive:true});
+$('full').onclick=async()=>{ if(document.fullscreenElement){try{await document.exitFullscreen()}catch(e){}}else await enterFullscreen(); syncOrientation(); };
+$('book').addEventListener('click',()=>{ if(isMobile() && isLandscape()) enterFullscreen(); },{passive:true});
+window.addEventListener('resize',syncOrientation,{passive:true});
+window.addEventListener('orientationchange',()=>setTimeout(syncOrientation,120),{passive:true});
+
 music.onclick=()=>audio.paused?musicOn():musicOff();play.onclick=()=>audio.paused?musicOn():musicOff();$('prev').onclick=()=>go(-1);$('next').onclick=()=>go(1);
 $('auto').onclick=()=>{if(autoTimer){clearInterval(autoTimer);autoTimer=null;$('auto').textContent='Auto Flip'}else{$('auto').textContent='Stop Auto';autoTimer=setInterval(()=>{if(current<FINAL)go(1);else clearInterval(autoTimer)},4300)}};
 $('grid').onclick=()=>thumbs.scrollIntoView({behavior:'smooth',block:'nearest'});
 function buildThumbs(){for(let i=1;i<=COUNT;i++){const b=document.createElement('button');b.className='thumb';b.dataset.n=i;b.innerHTML=`<img loading="lazy" src="page-${String(i).padStart(2,'0')}.jpg" alt="Memory ${i}">`;b.onclick=()=>jump(i);thumbs.appendChild(b)}}
-async function jump(target){if(target===current||animating)return;const step=target>current?1:-1;while(current!==target){await go(step);await new Promise(r=>setTimeout(r,1100))}}
+async function jump(target){if(target===current||animating)return;const step=target>current?1:-1;while(current!==target){await go(step);await new Promise(r=>setTimeout(r,120))}}
 function openLB(n){if(n>COUNT)return;lb.src=src(n);caption.textContent=`${title(n)} · Farid & Vaheda`;lightbox.style.display='grid';document.body.style.overflow='hidden'}function closeLB(){lightbox.style.display='none';lb.src='';document.body.style.overflow=''}imgA.onclick=()=>openLB(current);imgB.onclick=()=>openLB(current+1);$('close').onclick=closeLB;lightbox.onclick=e=>{if(e.target===lightbox)closeLB()};
 document.addEventListener('keydown',e=>{if(lightbox.style.display==='grid'&&e.key==='Escape'){closeLB();return}if(e.key==='ArrowRight')go(1);if(e.key==='ArrowLeft')go(-1);if(e.key===' '){e.preventDefault();audio.paused?musicOn():musicOff()}});
 let sx=0,sy=0;$('book').addEventListener('touchstart',e=>{sx=e.changedTouches[0].clientX;sy=e.changedTouches[0].clientY},{passive:true});$('book').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy))go(dx<0?1:-1)},{passive:true});
-buildThumbs();prepare(current);
+buildThumbs();prepare(current);syncOrientation();
 </script>
 </body>
 </html>
