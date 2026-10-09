@@ -18,7 +18,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;ba
 .hero{text-align:center;padding:36px 15px 20px;position:relative;z-index:1}.hero small{font-size:8px;letter-spacing:.5em;text-transform:uppercase;color:#81796f}.hero h1{font:300 clamp(38px,7vw,70px)/1 'Cormorant Garamond',serif;margin:10px 0 5px}.hero h1 span{color:var(--gold)}.hero p{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#90877c;margin:0}
 /* BOOK */
 .album{width:min(1220px,94vw);margin:auto;position:relative;z-index:2}.book-stage{display:flex;justify-content:center;perspective:2600px}.book{position:relative;width:min(1080px,100%);height:min(70vh,720px);min-height:390px;background:#0a0907;border:1px solid rgba(217,181,109,.3);box-shadow:0 35px 100px rgba(0,0,0,.72),0 0 0 1px rgba(255,255,255,.03) inset;overflow:hidden}.book:before{content:"";position:absolute;inset:0;z-index:20;pointer-events:none;background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,.38) 100%)}
-.page{position:absolute;inset:0;transform-style:preserve-3d;transform-origin:left center;z-index:10}.page.flipping{pointer-events:none;transition:transform 1.05s cubic-bezier(.22,.72,.18,1);transform:rotateY(-180deg)}.face{position:absolute;inset:0;backface-visibility:hidden;overflow:hidden;background:#111;display:grid;place-items:center}.face.back{transform:rotateY(180deg)}.face:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.24),transparent 15%,transparent 85%,rgba(0,0,0,.24));z-index:2;pointer-events:none}.photo{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;display:block;cursor:zoom-in}.blur{position:absolute!important;inset:-7%;width:114%!important;height:114%!important;object-fit:cover!important;filter:blur(25px) brightness(.28);transform:scale(1.08);opacity:.95;z-index:0!important;cursor:default!important}.page-edge{position:absolute;top:0;bottom:0;left:0;width:4px;background:linear-gradient(90deg,rgba(0,0,0,.9),rgba(255,255,255,.15),rgba(0,0,0,.9));z-index:4;opacity:.65}.badge{position:absolute;z-index:30;top:14px;left:14px;padding:7px 10px;border:1px solid rgba(217,181,109,.4);background:rgba(0,0,0,.48);backdrop-filter:blur(8px);font-size:8px;letter-spacing:.18em;text-transform:uppercase}.credit{position:absolute;z-index:30;right:14px;bottom:14px;padding:7px 10px;text-align:right;background:rgba(0,0,0,.48);border:1px solid rgba(217,181,109,.35);font-size:7px;letter-spacing:.09em;color:#d8d0c5}.credit b{color:var(--gold2)}
+.page{position:absolute;inset:0;transform-style:preserve-3d;transform-origin:left center;z-index:10}.page.flipping{transition:transform .92s cubic-bezier(.22,.72,.18,1);transform:rotateY(-180deg)}.face{position:absolute;inset:0;backface-visibility:hidden;overflow:hidden;background:#111;display:grid;place-items:center}.face.back{transform:rotateY(180deg)}.face:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.24),transparent 15%,transparent 85%,rgba(0,0,0,.24));z-index:2;pointer-events:none}.photo{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;display:block;cursor:zoom-in}.blur{position:absolute!important;inset:-7%;width:114%!important;height:114%!important;object-fit:cover!important;filter:blur(25px) brightness(.28);transform:scale(1.08);opacity:.95;z-index:0!important;cursor:default!important}.page-edge{position:absolute;top:0;bottom:0;left:0;width:4px;background:linear-gradient(90deg,rgba(0,0,0,.9),rgba(255,255,255,.15),rgba(0,0,0,.9));z-index:4;opacity:.65}.badge{position:absolute;z-index:30;top:14px;left:14px;padding:7px 10px;border:1px solid rgba(217,181,109,.4);background:rgba(0,0,0,.48);backdrop-filter:blur(8px);font-size:8px;letter-spacing:.18em;text-transform:uppercase}.credit{position:absolute;z-index:30;right:14px;bottom:14px;padding:7px 10px;text-align:right;background:rgba(0,0,0,.48);border:1px solid rgba(217,181,109,.35);font-size:7px;letter-spacing:.09em;color:#d8d0c5}.credit b{color:var(--gold2)}
 /* controls */
 .info{display:flex;justify-content:space-between;align-items:center;margin:14px 2px 0}.counter{font:400 22px 'Cormorant Garamond',serif;color:#eee}.counter span{color:var(--gold)}.hint{font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:#7f776d}.controls{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:10px}.arrow{width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.035);color:#f2eadf;font-size:28px;cursor:pointer}.arrow:hover:not(:disabled){background:var(--gold);color:#111}.arrow:disabled{opacity:.25;cursor:not-allowed}.track{width:min(680px,60vw);height:2px;background:rgba(255,255,255,.1)}.track i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s ease}.tools{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin:13px 0}.tool{padding:8px 13px;border-radius:999px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:#a49b90;font-size:8px;letter-spacing:.15em;text-transform:uppercase;cursor:pointer}.tool:hover{border-color:var(--line);color:var(--gold2)}
 /* thumbs */
@@ -26,29 +26,12 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;ba
 .footer{text-align:center;padding:28px 15px 38px;color:#6e675f;font-size:9px;letter-spacing:.2em;text-transform:uppercase}.footer b{color:var(--gold);font-size:15px;margin:0 6px}
 /* lightbox */
 #lightbox{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.96);place-items:center;padding:18px}.lb{max-width:96vw;max-height:92vh;object-fit:contain}.close{position:fixed;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:1px solid #444;background:#111;color:#fff;font-size:25px;cursor:pointer}.caption{position:fixed;bottom:15px;left:50%;transform:translateX(-50%);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:#aaa;white-space:nowrap}
-#rotateToast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);z-index:3000;opacity:0;pointer-events:none;padding:10px 15px;border:1px solid rgba(217,181,109,.45);border-radius:999px;background:rgba(8,7,5,.88);backdrop-filter:blur(12px);color:#e9dfd2;font-size:9px;letter-spacing:.14em;text-transform:uppercase;transition:.35s ease;white-space:nowrap}#rotateToast.show{opacity:1;transform:translate(-50%,0)}
-#rotateScreen{display:none;position:fixed;inset:0;z-index:5000;place-items:center;background:radial-gradient(circle at 50% 40%,rgba(217,181,109,.16),transparent 24%),linear-gradient(135deg,#020202,#161009 55%,#030303);text-align:center;padding:24px}
-.rotate-card{width:min(520px,92vw);padding:34px 24px 30px;border:1px solid rgba(217,181,109,.35);background:rgba(8,7,5,.72);box-shadow:0 30px 90px rgba(0,0,0,.65);backdrop-filter:blur(18px);border-radius:22px}
-.rotate-icon{width:76px;height:76px;margin:0 auto 18px;border:1px solid rgba(217,181,109,.5);border-radius:50%;display:grid;place-items:center;color:var(--gold2);font-size:38px;animation:rotHint 1.8s ease-in-out infinite}
-.rotate-kicker{font-size:8px;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);margin-left:.42em}.rotate-title{font:400 clamp(34px,8vw,54px)/1 'Cormorant Garamond',serif;margin:13px 0 10px}.rotate-sub{font-size:10px;line-height:1.8;letter-spacing:.1em;text-transform:uppercase;color:#9d958b}.rotate-hint{display:inline-block;margin-top:22px;padding:8px 13px;border:1px solid rgba(217,181,109,.3);border-radius:999px;color:#d9cdbd;font-size:8px;letter-spacing:.2em;text-transform:uppercase}@keyframes rotHint{0%,100%{transform:rotate(0)}45%{transform:rotate(90deg)}65%{transform:rotate(90deg)} }
-@media(max-width:700px) and (orientation:portrait){body.album-open #rotateScreen{display:grid}body.album-open{overflow:hidden}body.album-open #cover{display:none}}
-@media(max-width:700px) and (orientation:landscape){#rotateScreen{display:none!important}}
 @media(max-width:700px){.top{height:56px}.brand{font-size:19px}.hero{padding:20px 10px 12px}.hero h1{font-size:40px}.album{width:100%}.book{width:100%;height:calc(100svh - 178px);min-height:430px;border-left:0;border-right:0}.badge{top:9px;left:9px}.credit{right:8px;bottom:8px}.hint{display:none}.info{padding:0 12px}.counter{font-size:20px}.track{width:42vw}.arrow{width:44px;height:44px}.tools{padding:0 10px}.tool{font-size:7px;padding:8px 10px}.thumbs{padding-left:10px;padding-right:10px}.thumb{flex-basis:64px;height:44px}}
-@media(max-width:700px) and (orientation:landscape){.top{height:48px}.hero{display:none}.book{height:calc(100svh - 72px);min-height:0}.info{margin-top:6px}.controls,.tools,.thumbs,.footer{display:none}.album{padding-bottom:0}.badge{font-size:7px}.credit{font-size:6px}.round{width:36px;height:36px}}
-@media(prefers-reduced-motion:reduce){.page.flipping{pointer-events:none;transition:none}}
+@media(prefers-reduced-motion:reduce){.page.flipping{transition:none}}
 </style>
 </head>
 <body>
-<div id="rotateToast">Turn your phone sideways for the album</div>
-<div id="rotateScreen" aria-hidden="true">
-  <div class="rotate-card">
-    <div class="rotate-icon"><span>↻</span></div>
-    <div class="rotate-kicker">Wedding Album</div>
-    <div class="rotate-title">Please rotate your phone</div>
-    <div class="rotate-sub">Turn your phone sideways to open<br>Farid &amp; Vaheda's memories</div>
-    <div class="rotate-hint">Landscape mode</div>
-  </div>
-</div><section id="cover"><div class="cover"><div class="monogram">F · V</div><div class="line"><i></i><b>♡</b><i></i></div><div class="eyebrow">The Wedding Album</div><div class="names">Farid <em>&amp;</em> Vaheda</div><div class="date">17 · 11 · 2025</div><div class="sub">Two hearts · One beautiful beginning</div><button class="open" id="open">Open Our Memories</button></div></section>
+<section id="cover"><div class="cover"><div class="monogram">F · V</div><div class="line"><i></i><b>♡</b><i></i></div><div class="eyebrow">The Wedding Album</div><div class="names">Farid <em>&amp;</em> Vaheda</div><div class="date">17 · 11 · 2025</div><div class="sub">Two hearts · One beautiful beginning</div><button class="open" id="open">Open Our Memories</button></div></section>
 <header class="top"><div class="brand">FARID <b>&amp;</b> VAHEDA</div><div class="actions"><button class="round" id="music" aria-label="Music">♪</button><button class="round" id="full" aria-label="Fullscreen">⛶</button></div></header>
 <section class="hero"><small>A day to remember</small><h1>Our <span>Wedding</span> Story</h1><p>Farid &amp; Vaheda · 17 November 2025</p></section>
 <main class="album"><div class="book-stage"><div class="book" id="book"><div class="page" id="page"><div class="face front"><img class="blur" id="blurA"><img class="photo" id="imgA" alt="Wedding memory"></div><div class="face back"><img class="blur" id="blurB"><img class="photo" id="imgB" alt="Wedding memory"></div><div class="page-edge"></div></div><div class="badge" id="badge">Memory 01</div><div class="credit">A special memory of <b>Farid &amp; Vaheda</b><br>17 · 11 · 2025</div></div></div>
@@ -70,92 +53,19 @@ async function prepare(n){await setImg(imgA,blurA,n);await setImg(imgB,blurB,Mat
 function preload(n){if(n<1||n>FINAL)return;const i=new Image();i.src=src(n)}
 /* Page flip sound: generated in-browser so no extra sound file is needed. */
 let audioCtx=null;
-function flipSound(){
-  if(!audio.paused) return;
-  try{
-    audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();
-    if(audioCtx.state==='suspended') audioCtx.resume();
-    const t=audioCtx.currentTime;
-    // Realistic short paper-page turn: airy sweep + paper flutter + soft low thump.
-    const dur=.46, sr=audioCtx.sampleRate, len=Math.floor(sr*dur);
-    const b=audioCtx.createBuffer(1,len,sr), d=b.getChannelData(0);
-    let last=0;
-    for(let i=0;i<len;i++){
-      const x=i/len;
-      const env=Math.pow(Math.max(0,1-x),1.7)*Math.sin(Math.PI*Math.min(1,x*1.8));
-      const white=Math.random()*2-1;
-      last=last*.985+white*.015;
-      const paper=(white-last*7)*env*.55;
-      const flutter=Math.sin(i/18)*.018*Math.sin(Math.PI*x);
-      d[i]=paper+flutter;
-    }
-    const n=audioCtx.createBufferSource(), hp=audioCtx.createBiquadFilter(), bp=audioCtx.createBiquadFilter(), g=audioCtx.createGain();
-    n.buffer=b; hp.type='highpass'; hp.frequency.value=520; bp.type='bandpass'; bp.frequency.setValueAtTime(1450,t); bp.frequency.exponentialRampToValueAtTime(850,t+.34); bp.Q.value=.55;
-    g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.34,t+.025); g.gain.exponentialRampToValueAtTime(.075,t+.20); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
-    n.connect(hp).connect(bp).connect(g).connect(audioCtx.destination); n.start(t); n.stop(t+dur);
-
-    // crisp paper edge / page snap
-    const o=audioCtx.createOscillator(), og=audioCtx.createGain(); o.type='triangle';
-    o.frequency.setValueAtTime(240,t+.08); o.frequency.exponentialRampToValueAtTime(115,t+.30);
-    og.gain.setValueAtTime(.0001,t+.07); og.gain.exponentialRampToValueAtTime(.055,t+.10); og.gain.exponentialRampToValueAtTime(.0001,t+.31);
-    o.connect(og).connect(audioCtx.destination); o.start(t+.07); o.stop(t+.32);
-  }catch(e){}
-}
-async function go(dir){
-  if(animating)return;
-  const target=current+dir;
-  if(target<1||target>FINAL)return;
-  animating=true;
-  await setImg(imgB,blurB,target);
-  flipSound();
-  page.classList.add('flipping');
-  await new Promise(r=>setTimeout(r,1050));
-  current=target;
-  page.classList.remove('flipping');
-  await prepare(current);
-  animating=false;
-}
+function flipSound(){if(!audio.paused)return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const t=audioCtx.currentTime;const dur=.32;const buffer=audioCtx.createBuffer(1,audioCtx.sampleRate*dur,audioCtx.sampleRate),data=buffer.getChannelData(0);for(let i=0;i<data.length;i++){const x=i/data.length;data[i]=(Math.random()*2-1)*Math.pow(1-x,2.5)*(0.34+0.12*Math.sin(i*.02));}const srcN=audioCtx.createBufferSource(),filter=audioCtx.createBiquadFilter(),gain=audioCtx.createGain();srcN.buffer=buffer;filter.type='bandpass';filter.frequency.setValueAtTime(1250,t);filter.frequency.exponentialRampToValueAtTime(480,t+.25);filter.Q.value=.7;gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(.28,t+.025);gain.gain.exponentialRampToValueAtTime(.0001,t+dur);srcN.connect(filter).connect(gain).connect(audioCtx.destination);srcN.start(t);srcN.stop(t+dur);const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.setValueAtTime(170,t);o.frequency.exponentialRampToValueAtTime(70,t+.24);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.08,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+.26);o.connect(g).connect(audioCtx.destination);o.start(t);o.stop(t+.27)}catch(e){}}
+async function go(dir){if(animating)return;const target=current+dir;if(target<1||target>FINAL)return;animating=true;await setImg(imgB,blurB,target);flipSound();page.classList.add('flipping');setTimeout(()=>{current=target;page.classList.remove('flipping');prepare(current);animating=false},920)}
 
 function musicOn(){audio.play().then(()=>{music.textContent='❚❚';play.textContent='Pause Music'}).catch(()=>{})}function musicOff(){audio.pause();music.textContent='♪';play.textContent='Play Music'}
-function isMobile(){return window.matchMedia('(max-width:700px)').matches}
-function isLandscape(){return window.matchMedia('(orientation:landscape)').matches || window.innerWidth>window.innerHeight}
-async function enterFullscreen(){
-  try{
-    if(!document.fullscreenElement && document.documentElement.requestFullscreen){await document.documentElement.requestFullscreen()}
-  }catch(e){}
-}
-function syncOrientation(){
-  const mobile=isMobile();
-  if(!mobile){$('rotateScreen').style.display='none';return}
-  const landscape=isLandscape();
-  if(landscape){$('rotateScreen').style.display='none';if(document.body.classList.contains('album-open'))musicOn()}
-  else if(document.body.classList.contains('album-open')){$('rotateScreen').style.display='grid';musicOff()}
-}
-async function requestAlbumMode(){
-  await enterFullscreen();
-  syncOrientation();
-}
-async function openAlbum(){
-  document.body.classList.add('album-open');
-  $('cover').classList.add('hide');
-  await requestAlbumMode();
-  if(!isMobile() || isLandscape()) musicOn();
-}
-$('open').onclick=openAlbum;
-$('full').onclick=async()=>{ if(document.fullscreenElement){try{await document.exitFullscreen()}catch(e){}}else await enterFullscreen(); syncOrientation(); };
-$('book').addEventListener('click',()=>{ if(isMobile() && isLandscape()) enterFullscreen(); },{passive:true});
-window.addEventListener('resize',syncOrientation,{passive:true});
-window.addEventListener('orientationchange',()=>setTimeout(syncOrientation,120),{passive:true});
-
-music.onclick=()=>audio.paused?musicOn():musicOff();play.onclick=()=>audio.paused?musicOn():musicOff();$('prev').onclick=()=>go(-1);$('next').onclick=()=>go(1);
+$('open').onclick=()=>{$('cover').classList.add('hide');musicOn()};music.onclick=()=>audio.paused?musicOn():musicOff();play.onclick=()=>audio.paused?musicOn():musicOff();$('full').onclick=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen?.();$('prev').onclick=()=>go(-1);$('next').onclick=()=>go(1);
 $('auto').onclick=()=>{if(autoTimer){clearInterval(autoTimer);autoTimer=null;$('auto').textContent='Auto Flip'}else{$('auto').textContent='Stop Auto';autoTimer=setInterval(()=>{if(current<FINAL)go(1);else clearInterval(autoTimer)},4300)}};
 $('grid').onclick=()=>thumbs.scrollIntoView({behavior:'smooth',block:'nearest'});
 function buildThumbs(){for(let i=1;i<=COUNT;i++){const b=document.createElement('button');b.className='thumb';b.dataset.n=i;b.innerHTML=`<img loading="lazy" src="page-${String(i).padStart(2,'0')}.jpg" alt="Memory ${i}">`;b.onclick=()=>jump(i);thumbs.appendChild(b)}}
-async function jump(target){if(target===current||animating)return;const step=target>current?1:-1;while(current!==target){await go(step);await new Promise(r=>setTimeout(r,120))}}
+async function jump(target){if(target===current||animating)return;const step=target>current?1:-1;while(current!==target){await go(step);await new Promise(r=>setTimeout(r,960))}}
 function openLB(n){if(n>COUNT)return;lb.src=src(n);caption.textContent=`${title(n)} · Farid & Vaheda`;lightbox.style.display='grid';document.body.style.overflow='hidden'}function closeLB(){lightbox.style.display='none';lb.src='';document.body.style.overflow=''}imgA.onclick=()=>openLB(current);imgB.onclick=()=>openLB(current+1);$('close').onclick=closeLB;lightbox.onclick=e=>{if(e.target===lightbox)closeLB()};
 document.addEventListener('keydown',e=>{if(lightbox.style.display==='grid'&&e.key==='Escape'){closeLB();return}if(e.key==='ArrowRight')go(1);if(e.key==='ArrowLeft')go(-1);if(e.key===' '){e.preventDefault();audio.paused?musicOn():musicOff()}});
 let sx=0,sy=0;$('book').addEventListener('touchstart',e=>{sx=e.changedTouches[0].clientX;sy=e.changedTouches[0].clientY},{passive:true});$('book').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy))go(dx<0?1:-1)},{passive:true});
-buildThumbs();prepare(current);syncOrientation();
+buildThumbs();prepare(current);
 </script>
 </body>
 </html>
